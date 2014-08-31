@@ -33,13 +33,15 @@ public class GetTweets {
                 	// 2: should not be a retweet
                 	// 3: check for keywords (challenge, call on, etc ..)
                 	// 4: 
-                    if ( tweet.getText().matches("((?s).*(@S+).*{2,4})") )
+                    if ( MatchFormat(tweet.getText()) )
             		{
                     	//System.out.println(cnt + " FOUND MATCH !!");
                     	//System.out.println(cnt + ": @" + tweet.getUser().getScreenName() + " - " + tweet.getText());
                     	
-                    	System.out.print(cnt + ": @" + tweet.getUser().getScreenName() + "=");
-                    	printUsersInTweet(tweet.getText());
+                    	//System.out.print(cnt + ": @" + tweet.getUser().getScreenName() + "=");
+                    	//printUsersInTweet(tweet.getText());
+                    	
+                    	StoreRecord( tweet );
                     	
                     	cnt++;
             		}
@@ -76,6 +78,29 @@ public class GetTweets {
 		for(String s : listUsers)
         {
             System.out.print("," + s);
+        }
+		System.out.println("");
+	}
+	
+	private static boolean MatchFormat( String tweet )
+	{
+		if ( tweet.matches("((?s).*(@S+).*{2,4})") )
+		{
+			return true;
+		}
+        
+        return false;
+	}
+	
+	private static void StoreRecord( Status tweet )
+	{
+		List<String> listUsers = GetUsersFromTweet( tweet.getText() );
+
+		System.out.print( tweet.getUser().getScreenName() );
+
+		for(String s : listUsers)
+        {
+			System.out.print("," + s);
         }
 		System.out.println("");
 	}
